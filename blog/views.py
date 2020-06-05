@@ -3,7 +3,14 @@ from django.utils import timezone
 from .models import Post, Comment
 from .forms import PostForm, CommentForm
 
+from rest_framework import viewsets
+from .serializers import PostingSerializer
+
 from django.contrib.auth.decorators import login_required
+
+class PostingViewSet(viewsets.ModelViewSet):
+    serializer_class = PostingSerializer
+    queryset = Post.objects.all()
 
 def post_list(request):
     posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')

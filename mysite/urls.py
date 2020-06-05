@@ -18,9 +18,20 @@ from django.urls import path, include
 
 from django.contrib.auth import views
 
+from rest_framework import routers
+
+from blog.views import PostingViewSet
+
+router = routers.DefaultRouter()
+router.register(
+    'post', PostingViewSet, base_name='post'
+)
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('blog.urls')),
     path('accounts/login/', views.LoginView.as_view(), name='login'),
     path('accounts/logout/', views.LogoutView.as_view(next_page='/'), name='logout'),
+    path('api-auth/', include('rest_framework.urls')),
+    path('', include(router.urls)),
 ]
